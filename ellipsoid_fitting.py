@@ -112,7 +112,7 @@ def ellipsoid_fitting(x,y,z):
 
         if cond1 and cond2:
             not_ellipsoid=False
-    print("Number of random plans tested: ",cnt)
+    #print("Number of random plans tested: ",cnt)
 
     # To insure A0 is positive definite and k is positive
     # in the expression (x-v).T @ A0 @ (x-v) = k
@@ -178,5 +178,5 @@ if __name__=="__main__":
     x,y,z=generate_noised_ellipsoid()
     phat=ellipsoid_fitting(x,y,z)
     Ae,v=extract_ellipsoid_params(phat)
-    M=np.linalg.inv(scipy.linalg.sqrtm(Ae))
-    show_ellipsoid_fitting(x,y,z,M,v)
+    Tm=np.linalg.inv(scipy.linalg.sqrtm(Ae))
+    show_ellipsoid_fitting(x,y,z,Tm,v)

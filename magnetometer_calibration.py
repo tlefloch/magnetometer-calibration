@@ -1,7 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.linalg
-from scipy.optimize import least_squares
 import scipy
 
 from ellipsoid_fitting import *
@@ -89,17 +87,20 @@ def hard_and_soft_iron_calibration(data):
 
     phat=ellipsoid_fitting(x,y,z)
     Ae,v=extract_ellipsoid_params(phat)
-    M=np.linalg.inv(scipy.linalg.sqrtm(Ae))
-    print(f"Soft-iron matrix M =")
-    print(M)
-    print(f"Hard-iron matrix v =")
-    print(v)
+    M=scipy.linalg.sqrtm(Ae)
 
     return M,v
 
-def correct_data(data,W,v):
+def print_calibration_parameters(M,v):
+    print(f"Soft-iron matrix M =")
+    print(M)
+    print(f"Hard-iron offset v =")
+    print(v)
+    print("B_cal = M ( B_m - v )")
+
+def correct_data(data,M,v):
     data=data.T
-    data_cor=np.linalg.inv(W)@(data-v)
+    data_cor=M@(data-v)
     return data_cor.T
 
 def show_correction(data,data_cor):
@@ -115,11 +116,6 @@ def show_correction(data,data_cor):
     ax.set_aspect('equal')
     plt.show()
 
-def get_mean_norm(data,v=np.zeros((3,1))):
-    data_centered=data.T-v
-    n=np.linalg.norm(data_centered,axis=0)
-    return np.mean(n)
-
 
 def compare_methods(data):
 
@@ -129,7 +125,7 @@ def compare_methods(data):
 
     phat=ellipsoid_fitting(x,y,z)
     Ae,v=extract_ellipsoid_params(phat)
-    M=np.linalg.inv(scipy.linalg.sqrtm(Ae))
+    M=scipy.linalg.sqrtm(Ae)
 
     c,r0=sphere_fitting(x,y,z)
     x0,y0,z0=c.flatten()
@@ -158,7 +154,7 @@ def compare_methods(data):
     zs=np.cos(theta)
 
     S=np.vstack((xs.ravel(),ys.ravel(),zs.ravel()))
-    E=M@S+v
+    E=np.linalg.inv(M)@S+v
     
     xe=E[0].reshape(xs.shape)
     ye=E[1].reshape(ys.shape)
@@ -183,12 +179,13 @@ if __name__=="__main__":
 
     # x,y,z=generate_noised_ellipsoid()
     # data=np.hstack((x,y,z))
-    
 
     M,v=hard_and_soft_iron_calibration(data)
+    print_calibration_parameters(M,v)
+
     data_cor=correct_data(data,M,v)
 
-    show_ellipsoid_fitting(x,y,z,M,v)
+    show_ellipsoid_fitting(x,y,z,np.linalg.inv(M),v)
     show_correction(data,data_cor)
 
     
