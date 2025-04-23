@@ -1,4 +1,4 @@
-# Magnetometer Calibration
+# Magnetometer Calibration using ellipsoid fitting
 
 This package helps calibrating a magnetometer for mobile robotics and embedded systems.
 
