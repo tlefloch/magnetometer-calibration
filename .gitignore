@@ -1,2 +1,3 @@
-data/data.npz
+.gitignore
+data/raw_data.npz
 data_npz_to_txt.py
