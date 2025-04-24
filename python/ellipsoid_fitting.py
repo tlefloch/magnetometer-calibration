@@ -19,7 +19,7 @@ def euler_to_rotmat(phi,theta,psi):
 
 def generate_noised_ellipsoid():
 
-    n=100
+    n=50
 
     phi=np.linspace(0,2*np.pi,n)
     theta=np.linspace(0,np.pi,n)
@@ -46,6 +46,7 @@ def generate_noised_ellipsoid():
     x=x[i]
     y=y[i]
     z=z[i]
+    print(x.shape)
 
     r=0.2
     x=x+r*(np.random.random(x.shape)-0.5)
@@ -170,6 +171,7 @@ def show_ellipsoid_fitting(x,y,z,M,t):
     # Plot ellipsoid
     plot_ellipsoid(ax,M,t)
 
+    plt.legend()
     ax.set_aspect('equal')
     plt.show()
 

@@ -1,5 +1,7 @@
 # Magnetometer Calibration using ellipsoid fitting
 
+![Ellipsoid fitting](./ex_ellipsoid_fitting.png)
+
 This package helps calibrating a magnetometer for mobile robotics and embedded systems.
 
 It requires a data set of raw magnetometer measurements. In order for the calibration to be reliable, take care of covering as much directions as possible when collecting the calibration data.
