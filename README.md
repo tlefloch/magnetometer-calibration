@@ -39,7 +39,7 @@ Use **mag_cal.py** directly (used by mag_cal.sh)
 
 In a bash session
 ```
-python3 mag_cal.py data/mag_data.txt
+python3 python/mag_cal.py data/mag_data.txt
 ```
 
 ## More details and visualization
