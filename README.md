@@ -6,6 +6,16 @@ This package helps calibrating a magnetometer for mobile robotics and embedded s
 
 It requires a data set of raw magnetometer measurements. In order for the calibration to be reliable, take care of covering as much directions as possible when collecting the calibration data.
 
+At the end of the calibration we obtain:
+- $M$ the soft-iron matrix
+- $v$ the hard-iron offset
+
+so we can correct the magnetometer's mesurements using:
+$$B_{cal}=M (B_m-v)$$
+
+where:
+- $B_m$ is the raw measurement
+- $B_{cal}$ is the calibrated/corrected measurement
 ## Get soft-iron matrix and hard-iron offset from calibration data
 
 In order to use the following, your calibration data must be stored either in a .txt or .npz file.
