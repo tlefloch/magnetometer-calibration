@@ -56,4 +56,4 @@ python3 python/mag_cal.py data/mag_data.txt
 
 Use **magnetometer_calibration.py** with your data set to get more details about the calibration and visualize ellipsoid fitting and correction.
 
-Please read [Magnetometer Calibration](magnetometer_calibration.pdf) to learn abour the theory behind hard-iron and soft-iron calibration, and ellipsoid fitting.
+Please read [Magnetometer Calibration](magnetometer_calibration.pdf) to learn about the theory behind hard-iron and soft-iron calibration, and ellipsoid fitting.
