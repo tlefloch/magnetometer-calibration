@@ -165,8 +165,8 @@ def show_ellipsoid_fitting(x,y,z,M,t):
     fig = plt.figure(figsize=(10,10))
     ax = fig.add_subplot(projection='3d')
 
-    # Plot raw data
-    ax.scatter(x,y,z,c="red",s=2)
+    # Plot Data
+    ax.scatter(x,y,z,c="red",s=2,label="Data")
 
     # Plot ellipsoid
     plot_ellipsoid(ax,M,t)

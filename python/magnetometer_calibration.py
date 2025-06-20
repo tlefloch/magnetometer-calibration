@@ -5,12 +5,12 @@ import scipy
 from ellipsoid_fitting import *
 
 
-def plot_data(ax,data):
+def plot_data(ax,data,label=None):
     x = data[:,0:1]
     y = data[:,1:2]
     z = data[:,2:3]
 
-    ax.scatter(x,y,z,s=2)
+    ax.scatter(x,y,z,s=2,label=label)
 
 
 def least_square_estimate(Y,A):
@@ -35,7 +35,7 @@ def sphere_fitting(x,y,z):
     # print("mean = ",np.mean(res))
     # print("std = ",np.std(res))
 
-    c=np.array([x0,y0,z0])
+    c=np.array([[x0,y0,z0]]).T
 
     return c,r0
 
@@ -48,35 +48,7 @@ def hard_iron_only_calibration(data):
     # Estimation
     c,r0=sphere_fitting(x,y,z)
 
-    x0,y0,z0=c.flatten()
-
-    # Calibration    
-    xcal=(x-x0)
-    ycal=(y-y0)
-    zcal=(z-z0)
-
-    fig = plt.figure(figsize=(10,10))
-    ax = fig.add_subplot(projection='3d')
-
-    # Plot raw data
-    ax.scatter(x,y,z,c="red",s=2)
-
-    # Plot estimation
-    phi=np.linspace(0,2*np.pi,100)
-    theta=np.linspace(0,np.pi,100)
-    phi,theta=np.meshgrid(phi,theta)
-
-    xs=x0+r0*np.sin(theta)*np.cos(phi)
-    ys=y0+r0*np.sin(theta)*np.sin(phi)
-    zs=z0+r0*np.cos(theta)
-
-    ax.plot_surface(xs,ys,zs,alpha=0.5)
-
-    # Plot calibrated data
-    ax.scatter(xcal,ycal,zcal,c="green",s=2)
-
-    ax.set_aspect('equal')
-    plt.show()
+    return c
     
 
 def hard_and_soft_iron_calibration(data):
@@ -109,10 +81,11 @@ def show_correction(data,data_cor):
     ax = fig.add_subplot(projection='3d')
 
     # Plot raw data
-    plot_data(ax,data)
+    plot_data(ax,data,label="Raw Data")
 
-    plot_data(ax,data_cor)
+    plot_data(ax,data_cor,label="Corrected Data")
 
+    plt.legend()
     ax.set_aspect('equal')
     plt.show()
 
@@ -168,17 +141,19 @@ def compare_methods(data):
 
 if __name__=="__main__":
 
+    # Experimental data
     mag_data_path="data/mag_data.txt"
     data=np.loadtxt(mag_data_path)
-
     x = data[:,0:1]
     y = data[:,1:2]
     z = data[:,2:3]
-    
-    #hard_iron_only_calibration(data)
 
+    # Random data
     # x,y,z=generate_noised_ellipsoid()
     # data=np.hstack((x,y,z))
+    
+    # v=hard_iron_only_calibration(data)
+    # M=np.eye(3)
 
     M,v=hard_and_soft_iron_calibration(data)
     print_calibration_parameters(M,v)
