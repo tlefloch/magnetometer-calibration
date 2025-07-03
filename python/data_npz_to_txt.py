@@ -2,8 +2,11 @@ import numpy as np
 
 data_path = "data/raw_data.npz"
 
-t0=0
-tf=-1  # Use -1 to load the entire dataset
+# Define the time range for the data extraction
+# t0 is the start time, tf is the end time.
+# If tf is -1, it will load the entire dataset.
+t0=25 # s
+tf=165 # s
 
 data = np.load(data_path)
 
